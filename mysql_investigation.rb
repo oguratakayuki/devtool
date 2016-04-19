@@ -27,15 +27,20 @@ def table_changes ()
       results[table_name] = count
     end
   end
+
+  puts "\n\n------------------------\n sabun check \n------------------------\n\n "
   #読み込み
   pre_records = Marshal.load(File.read(pre_history_file_name))
   #差分チェック 
   pre_records.each do |k,v|
+    v = v.chomp
     #過去データのキーが現在のデータにもあった
     if results[k]
-      if v == results[k]
+      if v == results[k].chomp
         #record数も同じだった
-        puts "#{k} .... no change(#{v} records)"
+        if v.to_i != 0
+          puts "#{k} .... no change(#{v} records)"
+        end
       else
         #record数違った!!!!!
         puts "#{k} is changed (#{v} to #{results[k]} records)"
@@ -43,8 +48,7 @@ def table_changes ()
     else
       #無くなった.ありえないはず
       puts "#{k} is droped"
-    end
-  end
+    end end
   #新しく保存されたtableもしくは今まで0件だったテーブルにinsertされた場合
   results.each do |k,v|
     if pre_records[k] == nil
