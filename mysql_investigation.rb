@@ -28,8 +28,9 @@ def table_changes (db_name)
     pre_records.each do |k,v|
       v = v.chomp
       #過去データのキーが現在のデータにもあった
+      results[k].chomp!
       if results[k]
-        if v == results[k].chomp
+        if v == results[k]
           #record数も同じだった
           if v.to_i != 0
             #puts "#{k} .... no change(#{v} records)"
