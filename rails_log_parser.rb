@@ -1,57 +1,38 @@
-
-class Logger
-
-  def initialize
-    sleep 10
-    @files = {}
-  end
-
-  def get_file_io(line)
-    fio = if @files[self.class.file_path_by_type(line)]
-        @files[self.class.file_path_by_type(line)]
-      else
-        f = File::open(self.class.file_path_by_type(line), "a")
-        @files[self.class.file_path_by_type(line)] = f
-        f
+class WritterManager
+  def write(line)
+    type = self.class.get_type(line)
+    io_class = case type
+    when 'select'
+      @select_writer ||= SelectWriter.new(type)
+    when 'insert'
+      @insert_writer ||= DefaultWriter.new(type)
+    when 'update'
+      @update_writer ||= DefaultWriter.new(type)
+    when 'delete'
+      @delete_writer ||= DefaultWriter.new(type)
+    when 'template'
+      @template_writer ||= RenderWriter.new(type)
     end
+    io_class.write(line) if io_class
   end
 
 
-  def write_log(line)
-    #filteringはここで行わない
-    #return nil unless self.class.need_log?(line)
-    Dir.mkdir(self.class.log_dir, 0766) unless Dir.exist?(self.class.log_dir)  
-    fs = get_file_io(line)
-    fs.write(line)
-  end
-
-  def self.need_log?(line)
-    file_path_by_type(line) ? true : false
-  end
-
-  def self.file_path_by_type(line)
-    file_path = case line
+  def self.get_type(line)
+    type = case line
     when /SELECT/
       'select'
     when /INSERT/
       'insert'
     when /UPDATE/
       'UPDATE'
-    when /Render/
+    when /Rendered/
       'template'
     else
       'other'
     end
     #log_dir + file_path
-    File.join(log_dir, file_path)
+    #File.join(log_dir, file_path)
   end
-  
-  def self.log_dir
-    File.join(Dir::getwd, 'my_log_dir')
-  end
-  
-
-
 
   def close_files
     @files.each{|k,v| v.close }
@@ -59,15 +40,81 @@ class Logger
 
 end
 
+class DefaultWriter
+  def initialize(type)
+    @type = type
+    @f = File::open(file_path(type), "a")
+  end
+  def file_path(line)
+    File.join(self.class.log_dir, @type)
+  end
+  def format_text(text)
+    #@f.write(line)
+    #http://stackoverflow.com/questions/16032726/removing-color-decorations-from-strings-before-writing-them-to-logfile
+    non_colored_text = text.gsub(/\e\[(\d+)m/, '')
+  end
+  def write(line)
+    if need_to_write?(line)
+      line = format_text(line)
+      @f.write( line + "\n")
+    end
+  end
+  def need_to_write?(line)
+    true
+  end
+  def self.log_dir
+    File.join(Dir::getwd, 'my_log_dir')
+  end
+end
+
+class SQLWriter < DefaultWriter
+  def need_to_write?(line)
+    #http://stackoverflow.com/questions/9731649/match-a-string-against-multiple-paterns
+    prefixes = /facilities/, /facility/, /DATABASE/
+    re = Regexp.union(prefixes)
+    !line.match(re)
+  end
+end
+
+class SelectWriter < SQLWriter
+  def format_text(text)
+    text = super(text)
+    select_sql = text.match(/.*(SELEC.*\z)/)[1]   
+  end
+end
+
+
+
+class Logger
+  def initialize
+    @wm = WritterManager.new
+    Dir.mkdir(self.class.log_dir, 0766) unless Dir.exist?(self.class.log_dir)  
+  end
+  def write_log(line)
+    @wm.write(line)
+  end
+  def self.log_dir
+    File.join(Dir::getwd, 'my_log_dir')
+  end
+end
+
+
+
+
+Signal.trap(:INT){
+  puts "SIGINT"
+  exit(0)
+}
 
 logger = Logger.new
 while line = gets
   line.chomp!
   #filtering
-  if line =~ /SELECT/ || line =~ /INSERT/
-    puts line
-    logger.write_log(line)
-  end
+  logger.write_log(line)
+  #if line =~ /SELECT/ || line =~ /INSERT/ || line =~ /.*Rendered.*/
+  #  puts line
+  #  logger.write_log(line)
+  #end
 end
 
-logger.close_files
+#logger.close_files
