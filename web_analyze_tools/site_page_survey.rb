@@ -1,8 +1,13 @@
 #http://rubylearning.com/blog/2007/02/06/convert-bytes-to-megabytes/
+KILOBYTE = 1024.0
 MEGABYTE = 1024.0 * 1024.0
 def bytesToMeg bytes
   bytes /  MEGABYTE
 end
+def bytesToGiga bytes
+  bytes /  GIGABYTE
+end
+
 
 ret = {}
 Dir.glob("client3.coore-on-rails.co.jp.responsive-develop02.s-rep.net+8080/**/*") do |filename|

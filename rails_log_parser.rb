@@ -83,6 +83,8 @@ class SelectWriter < SQLWriter
   end
 end
 
+class RenderWriter < DefaultWriter
+end
 
 
 class Logger
