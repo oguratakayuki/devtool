@@ -3,7 +3,7 @@ require "open3"
 def table_changes (db_name)
   results ={}
   table_names = []
-  Open3.popen3("mysql -u root  #{db_name} -e 'show tables;' | awk '{print $1;}'") do |i, o, e, w|
+  Open3.popen3("mysql -u root -prootp  #{db_name} -e 'show tables;' | awk '{print $1;}'") do |i, o, e, w|
     i.close
     o.each do |table_name|
       table_names << table_name.chomp
@@ -11,7 +11,7 @@ def table_changes (db_name)
   end
   table_names.each do |table_name|
     sql="select count(*) from #{table_name}\\G"
-    count=`mysql -u root #{db_name} -e "#{sql}" | grep 'count' | awk -F':' '{print $2}'`
+    count=`mysql -u root -prootp #{db_name} -e "#{sql}" | grep 'count' | awk -F':' '{print $2}'`
     if count.to_i != 0
       results[table_name] = count
       puts "#{table_name}: #{count}"
