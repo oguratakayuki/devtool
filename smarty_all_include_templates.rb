@@ -1,7 +1,5 @@
-
 require 'pathname'
 require "open3"
-
 
 def extract_include_paths(real_file_paths)
   include_paths = []
@@ -15,8 +13,6 @@ def extract_include_paths(real_file_paths)
   end
   include_paths
 end
-
-
 
 def find_real_file_by_string(paths)
   ret = []
@@ -43,11 +39,14 @@ def main_loop(real_paths)
   end
 end
 
-BASE = '/Users/oguratakayuki/work/zen/var/public_html/libs/templates/'
+BASE = '/Users/oguratakayuki/work/zen/var/public_html/libs/templates'
 @outputs = []
-root_file_path = ARGV[0]
-
-main_loop([root_file_path])
+root_file_paths = ARGV
+root_file_paths.each do |root_file_path|
+  main_loop([root_file_path])
+end
 
 temp = @outputs.uniq
 puts temp
+#入力されたファイル（読み込み元ファイル)も標準出力にだす
+puts find_real_file_by_string(ARGV)
