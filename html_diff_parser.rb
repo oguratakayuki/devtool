@@ -28,9 +28,8 @@ def has_diff(a, b)
   Digest::SHA2.hexdigest(a.to_s) != Digest::SHA2.hexdigest(b.to_s)
 end
 
-
-a_html = File.open("a.html", &:read)
-b_html = File.open("b.html", &:read)
+a_html = File.open(ARGV[0], &:read)
+b_html = File.open(ARGV[1], &:read)
 
 a_node = Capybara.string(a_html).find('body').native
 b_node = Capybara.string(b_html).find('body').native

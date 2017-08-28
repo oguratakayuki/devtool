@@ -39,7 +39,7 @@ def main_loop(real_paths)
   end
 end
 
-BASE = '/Users/oguratakayuki/work/zen/var/public_html/libs/templates'
+BASE = '/Users/oguratakayuki/work/zen/var/www/vhosts/zen.local/httpdocs/libs/templates'
 @outputs = []
 root_file_paths = ARGV
 root_file_paths.each do |root_file_path|
