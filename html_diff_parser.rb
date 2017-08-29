@@ -15,9 +15,17 @@ require "digest"
 
 def search_children(a_node, b_node)
   a_node.element_children.each_with_index do |a, index|
-    if has_diff(a, b_node.element_children[index])
+    return 1 if b_node.nil?
+    if b_node && has_diff(a, b_node.element_children[index])
       puts "#{a.path} has diff"
-      search_children(a, b_node.element_children[index]) if a.element_children.length > 0
+      ret = search_children(a, b_node.element_children[index]) if a.element_children.length > 0
+      if ret == 1
+        #子要素なし
+        puts 'FROM'
+        puts a.to_s
+        puts "TO\n\n\n\n\n\n"
+        puts b_node.element_children[index].to_s
+      end
     else
       puts "#{a.path} has no diff"
     end
