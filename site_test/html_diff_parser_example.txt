@@ -1,0 +1,96 @@
+#from
+curl -u zenadmin:test0000 http://test.basipilates.jp/studioInfo/ginza.php         > test_old_bs_web.html
+curl -u zenadmin:test0000 http://test.pilatesstyle.jp/studioInfo/jinbochou.php    > test_old_ps_web.html
+curl -u zenadmin:test0000 http://test.bk-yoga.info/studioInfo/shinjuku.php        > test_old_bk_web.html
+curl -u zenadmin:test0000 http://test.yoga-plus.jp/studioInfo/yokohama.php        > test_old_yp_web.html
+
+curl -u zenadmin:test0000 http://test.basipilates.jp/studioInfo/sp_ginza.php      > test_old_bs_sp.html
+curl -u zenadmin:test0000 http://test.pilatesstyle.jp/studioInfo/sp_jinbochou.php > test_old_ps_sp.html
+curl -u zenadmin:test0000 http://test.bk-yoga.info/studioInfo/sp_shinjuku.php     > test_old_bk_sp.html
+curl -u zenadmin:test0000 http://test.yoga-plus.jp/studioInfo/sp_yokohama.php     > test_old_yp_sp.html
+#to
+curl -u zenadmin:test0000 http://test.basipilates.jp/studioInfo/ginza.php         > test_new_bs_web.html
+curl -u zenadmin:test0000 http://test.pilatesstyle.jp/studioInfo/jinbochou.php    > test_new_ps_web.html
+curl -u zenadmin:test0000 http://test.bk-yoga.info/studioInfo/shinjuku.php        > test_new_bk_web.html
+curl -u zenadmin:test0000 http://test.yoga-plus.jp/studioInfo/yokohama.php        > test_new_yp_web.html
+
+curl -u zenadmin:test0000 http://test.basipilates.jp/studioInfo/sp_ginza.php      > test_new_bs_sp.html
+curl -u zenadmin:test0000 http://test.pilatesstyle.jp/studioInfo/sp_jinbochou.php > test_new_ps_sp.html
+curl -u zenadmin:test0000 http://test.bk-yoga.info/studioInfo/sp_shinjuku.php     > test_new_bk_sp.html
+curl -u zenadmin:test0000 http://test.yoga-plus.jp/studioInfo/sp_yokohama.php     > test_new_yp_sp.html
+
+ruby html_diff_parser.rb test_old_bs_web.html test_new_bs_web.html
+ruby html_diff_parser.rb test_old_ps_web.html test_new_ps_web.html
+ruby html_diff_parser.rb test_old_bk_web.html test_new_bk_web.html
+ruby html_diff_parser.rb test_old_yp_web.html test_new_yp_web.html
+ruby html_diff_parser.rb test_old_bs_sp.html test_new_bs_sp.html
+ruby html_diff_parser.rb test_old_ps_sp.html test_new_ps_sp.html
+ruby html_diff_parser.rb test_old_bk_sp.html test_new_bk_sp.html
+ruby html_diff_parser.rb test_old_yp_sp.html test_new_yp_sp.html
+
+
+curl  https://www.basipilates.jp/studioInfo/ginza.php         > prod_old_bs_web.html
+curl  https://www.pilatesstyle.jp/studioInfo/jinbochou.php    > prod_old_ps_web.html
+curl  https://www.bk-yoga.info/studioInfo/shinjuku.php        > prod_old_bk_web.html
+curl  https://www.yoga-plus.jp/studioInfo/yokohama.php        > prod_old_yp_web.html
+
+curl  https://www.basipilates.jp/studioInfo/sp_ginza.php      > prod_old_bs_sp.html
+curl  https://www.pilatesstyle.jp/studioInfo/sp_jinbochou.php > prod_old_ps_sp.html
+curl  https://www.bk-yoga.info/studioInfo/sp_shinjuku.php     > prod_old_bk_sp.html
+curl  https://www.yoga-plus.jp/studioInfo/sp_yokohama.php     > prod_old_yp_sp.html
+
+
+curl  https://www.basipilates.jp/studioInfo/ginza.php         > prod_new_bs_web.html
+curl  https://www.pilatesstyle.jp/studioInfo/jinbochou.php    > prod_new_ps_web.html
+curl  https://www.bk-yoga.info/studioInfo/shinjuku.php        > prod_new_bk_web.html
+curl  https://www.yoga-plus.jp/studioInfo/yokohama.php        > prod_new_yp_web.html
+
+curl  https://www.basipilates.jp/studioInfo/sp_ginza.php      > prod_new_bs_sp.html
+curl  https://www.pilatesstyle.jp/studioInfo/sp_jinbochou.php > prod_new_ps_sp.html
+curl  https://www.bk-yoga.info/studioInfo/sp_shinjuku.php     > prod_new_bk_sp.html
+curl  https://www.yoga-plus.jp/studioInfo/sp_yokohama.php     > prod_new_yp_sp.html
+
+ruby html_diff_parser.rb prod_old_bs_web.html prod_new_bs_web.html
+ruby html_diff_parser.rb prod_old_ps_web.html prod_new_ps_web.html
+ruby html_diff_parser.rb prod_old_bk_web.html prod_new_bk_web.html
+ruby html_diff_parser.rb prod_old_yp_web.html prod_new_yp_web.html
+ruby html_diff_parser.rb prod_old_bs_sp.html prod_new_bs_sp.html
+ruby html_diff_parser.rb prod_old_ps_sp.html prod_new_ps_sp.html
+ruby html_diff_parser.rb prod_old_bk_sp.html prod_new_bk_sp.html
+ruby html_diff_parser.rb prod_old_yp_sp.html prod_new_yp_sp.html
+
+
+ruby html_diff_parser.rb data/development_before_pc_bs.html data/development_before_pc_bs.html
+
+ruby html_diff_parser.rb data/development_before_pc_ps.html data/development_before_pc_ps.html
+
+ruby html_diff_parser.rb data/development_before_pc_bk.html data/development_before_pc_bk.html
+
+ruby html_diff_parser.rb data/development_before_pc_yp.html data/development_before_pc_yp.html
+
+ruby html_diff_parser.rb data/development_before_sp_bs.html data/development_before_sp_bs.html
+
+ruby html_diff_parser.rb data/development_before_sp_ps.html data/development_before_sp_ps.html
+
+ruby html_diff_parser.rb data/development_before_sp_bk.html data/development_before_sp_bk.html
+
+ruby html_diff_parser.rb data/development_before_sp_yp.html data/development_before_sp_yp.html
+
+ruby html_diff_parser.rb data/production_before_pc_bs.html data/production_before_pc_bs.html
+
+ruby html_diff_parser.rb data/production_before_pc_ps.html data/production_before_pc_ps.html
+
+ruby html_diff_parser.rb data/production_before_pc_bk.html data/production_before_pc_bk.html
+
+ruby html_diff_parser.rb data/production_before_pc_yp.html data/production_before_pc_yp.html
+
+ruby html_diff_parser.rb data/production_before_sp_bs.html data/production_before_sp_bs.html
+
+ruby html_diff_parser.rb data/production_before_sp_ps.html data/production_before_sp_ps.html
+
+ruby html_diff_parser.rb data/production_before_sp_bk.html data/production_before_sp_bk.html
+
+ruby html_diff_parser.rb data/production_before_sp_yp.html data/production_before_sp_yp.html
+
+
+

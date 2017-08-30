@@ -1,0 +1,28 @@
+url:
+  development:
+    pc:
+      bs: http://test.basipilates.jp/studioInfo/ginza.php
+      ps: http://test.pilatesstyle.jp/studioInfo/jinbochou.php
+      bk: http://test.bk-yoga.info/studioInfo/shinjuku.php
+      yp: http://test.yoga-plus.jp/studioInfo/yokohama.php
+    sp:
+      bs: http://test.basipilates.jp/studioInfo/sp_ginza.php
+      ps: http://test.pilatesstyle.jp/studioInfo/sp_jinbochou.php
+      bk: http://test.bk-yoga.info/studioInfo/sp_shinjuku.php
+      yp: http://test.yoga-plus.jp/studioInfo/sp_yokohama.php
+  production:
+    pc:
+      bs: https://www.basipilates.jp/studioInfo/ginza.php
+      ps: https://www.pilatesstyle.jp/studioInfo/jinbochou.php
+      bk: https://www.bk-yoga.info/studioInfo/shinjuku.php
+      yp: https://www.yoga-plus.jp/studioInfo/yokohama.php
+    sp:
+      bs: https://www.basipilates.jp/studioInfo/sp_ginza.php
+      ps: https://www.pilatesstyle.jp/studioInfo/sp_jinbochou.php
+      bk: https://www.bk-yoga.info/studioInfo/sp_shinjuku.php
+      yp: https://www.yoga-plus.jp/studioInfo/sp_yokohama.php
+brands:
+  - bs
+  - ps
+  - bk
+  - yp
