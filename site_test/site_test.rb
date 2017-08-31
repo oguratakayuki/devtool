@@ -9,7 +9,13 @@ def read_site(url, device_type, environment)
   option = device_type == 'sp' ?
     {'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1'} : {}
   if environment == 'development'
-    Net::HTTP.post_form(URI.parse(url),option).body
+    uri = URI.parse(url)
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      request = Net::HTTP::Post.new(uri, option)
+      request.basic_auth 'zenadmin', 'test0000'
+      response = http.request request
+      return response.body
+    end
   else
     uri = URI.parse(url)
     Net::HTTP.start(uri.host, uri.port, :use_ssl => true) do |http|
