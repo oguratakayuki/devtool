@@ -41,12 +41,14 @@ def search_children(a_node, b_node)
       if b_node && has_diff(a, b_node.element_children[index])
         #差分あり
         #puts "#{a.path} has diff2"
-        if a.path != b_node.element_children[index].path
+        if b_node.element_children[index].nil?
+          puts "afterには" + a.path + "がありません"
+          return
+        elsif a.path != b_node.element_children[index].path
           puts "before = " + a.path
           puts "after =  " + b_node.element_children[index].path
           abort "見ているパスが違います!!!!!"
         end
-        #ret = search_children(a, b_node.element_children[index]) if a.element_children.length > 0
         if a.element_children.length > 0
           #子要素に差分
           ret = search_children(a, b_node.element_children[index]) 

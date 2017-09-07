@@ -41,9 +41,14 @@ brands = setting['brands']
 
 #environment = ARGV[0] == 'prod' ? 'production' : 'development'
 before_after = ARGV[0] == 'after' ? 'after' : 'before'
+target_environments = []
+if ARGV[1] && target_environments << {prod: 'production', dev: 'development'}[ARGV[1].to_sym]
+else
+  target_envirnoments = %w(development production)
+end
 
 ret = Dir.mkdir(DATA_DIR, 0666) unless Dir.exists? DATA_DIR
-%w(development production).each do |environment|
+target_environments.each do |environment|
   %w(pc sp).each do |device_type|
     setting['url'][environment][device_type].each do |brand, url|
       save_page(environment, before_after, device_type, brand, url)
@@ -53,7 +58,7 @@ end
 
 if before_after == 'after'
   #比較まで行う
-  %w(development production).each do |environment|
+  target_environments.each do |environment|
     %w(pc sp).each do |device_type|
       brands.each do |brand|
         before_html = file_path_for(environment, 'before', device_type, brand)

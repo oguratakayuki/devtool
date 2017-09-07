@@ -7,3 +7,7 @@ ruby site_test.rb
 3. 以下のコマンドで変更後のhtmlを取得して、変更前のhtmlと比較する
 
 ruby site_test.rb after
+
+4. devまたはprodで環境を指定できます
+
+ruby site_test.rb after dev
