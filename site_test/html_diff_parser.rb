@@ -25,8 +25,18 @@ def search_children(a_node, b_node)
     #子要素があり,そこに差分がある
     if a_node.element_children.size != b_node.element_children.size
       puts "要素数に差分がある(#{a_node.path})"
+      puts "class = " +( a_node.attr('class') || '')
+      puts "id = " +  (a_node.attr('id') || '')
+
       puts "beforeの子要素数" + a_node.element_children.size.to_s
       puts "afterの子要素数" + b_node.element_children.size.to_s
+      puts "beforeの子要素" 
+      a_node.element_children.each{|t| puts t.path}
+      puts "afterの子要素数"
+      b_node.element_children.each{|t| puts t.path}
+      puts "要素数差分"
+      puts b_node.element_children.map(&:path) - a_node.element_children.map(&:path)
+      abort
       if a_node.element_children.size < b_node.element_children.size
          puts "追加されている"
          #a_node.element_children.map{|t| Digest::SHA2.hexdigest(t.to_s) }
@@ -77,8 +87,18 @@ def has_diff(a, b)
 end
 def dump_diff(a, b)
   puts 'FROM'
+  puts a.path
+  puts "class = " + ( a.attr('class') || '')
+  puts "id = " + (a.attr('id') || '')
+
+
   puts a.to_s.gsub(" ", "")
   puts "\n\nTO\n"
+  puts b.path
+  puts "class = " + ( b.attr('class') || '')
+  puts "id = " + (b.attr('id') || '')
+
+
   puts b.to_s.gsub(" ", "")
   puts "\n\n"
 end

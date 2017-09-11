@@ -16,9 +16,16 @@ def read_site(url, device_type, environment)
       response = http.request request
       return response.body
     end
-  else
+  elsif environment == 'production'
     uri = URI.parse(url)
     Net::HTTP.start(uri.host, uri.port, :use_ssl => true) do |http|
+      request = Net::HTTP::Get.new(uri, option)
+      response = http.request request
+      return response.body
+    end
+  elsif environment == 'local'
+    uri = URI.parse(url)
+    Net::HTTP.start(uri.host, uri.port, :use_ssl => false) do |http|
       request = Net::HTTP::Get.new(uri, option)
       response = http.request request
       return response.body
@@ -42,16 +49,20 @@ brands = setting['brands']
 #environment = ARGV[0] == 'prod' ? 'production' : 'development'
 before_after = ARGV[0] == 'after' ? 'after' : 'before'
 target_environments = []
-if ARGV[1] && target_environments << {prod: 'production', dev: 'development'}[ARGV[1].to_sym]
+if ARGV[1] && target_environments << {prod: 'production', dev: 'development', local: 'local'}[ARGV[1].to_sym]
 else
-  target_envirnoments = %w(development production)
+  target_envirnoments = %w(local development production)
 end
 
-ret = Dir.mkdir(DATA_DIR, 0666) unless Dir.exists? DATA_DIR
-target_environments.each do |environment|
-  %w(pc sp).each do |device_type|
-    setting['url'][environment][device_type].each do |brand, url|
-      save_page(environment, before_after, device_type, brand, url)
+only_diff = ARGV[2] == 'onlydiff'
+
+unless only_diff
+  ret = Dir.mkdir(DATA_DIR, 0666) unless Dir.exists? DATA_DIR
+  target_environments.each do |environment|
+    %w(pc sp).each do |device_type|
+      setting['url'][environment][device_type].each do |brand, url|
+        save_page(environment, before_after, device_type, brand, url)
+      end
     end
   end
 end

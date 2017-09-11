@@ -11,3 +11,8 @@ ruby site_test.rb after
 4. devまたはprodで環境を指定できます
 
 ruby site_test.rb after dev
+
+5. crawlingをしない場合
+
+ruby site_test.rb after prod onlydiff
+ruby site_test.rb after local onlydiff

@@ -1,4 +1,15 @@
 url:
+  local:
+    pc:
+      bs: http://test.basipilates.local:8080/studioInfo/ginza.php
+      ps: http://test.pilatesstyle.local:8080/studioInfo/kitasenjyu.php
+      bk: http://test.bk-yoga.local:8080/studioInfo/shinjuku.php
+      yp: http://test.yoga-plus.local:8080/studioInfo/yokohama.php
+    sp:
+      bs: http://test.basipilates.local:8080/studioInfo/sp_ginza.php
+      ps: http://test.pilatesstyle.local:8080/studioInfo/sp_kitasenjyu.php
+      bk: http://test.bk-yoga.local:8080/studioInfo/sp_shinjuku.php
+      yp: http://test.yoga-plus.local:8080/studioInfo/sp_yokohama.php
   development:
     pc:
       bs: http://test.basipilates.jp/studioInfo/ginza.php
